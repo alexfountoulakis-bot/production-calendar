@@ -96,7 +96,7 @@
   .weekdays-row {
     flex-shrink: 0;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 4px;
     margin-bottom: 4px;
   }
@@ -115,7 +115,6 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0;
     min-height: 0;
     overflow: hidden;
   }
@@ -137,7 +136,7 @@
   .days-grid {
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 4px;
     min-height: 0;
   }
@@ -178,35 +177,28 @@
   .cell-notes {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
     flex: 1;
     overflow: hidden;
   }
 
   .cell-note-line {
-    font-size: 11px;
+    font-size: 13px;
+    font-weight: 500;
     line-height: 1.4;
+    color: #1a1a18;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    border-radius: 4px;
+    padding: 2px 6px;
   }
-
-  .cell-note-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .cell-note-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
   .cell-more {
-    font-size: 10px;
+    font-size: 11px;
     color: #888780;
-    margin-top: 1px;
+    margin-top: 2px;
+    padding-left: 4px;
   }
 
   .legend {
@@ -219,6 +211,7 @@
     border-top: 1px solid #e8e6de;
     font-size: 11px;
     color: #888780;
+    align-items: center;
   }
   .legend-item { display: flex; align-items: center; gap: 6px; }
   .legend-dot { width: 8px; height: 8px; border-radius: 50%; background: #534AB7; }
@@ -227,6 +220,13 @@
     background: #534AB7; color: #fff;
     font-size: 9px; font-weight: 600;
     display: flex; align-items: center; justify-content: center;
+  }
+  .legend-highlight {
+    font-size: 11px;
+    font-weight: 500;
+    color: #1a1a18;
+    padding: 1px 6px;
+    border-radius: 3px;
   }
 
   /* ── Modal ── */
@@ -242,7 +242,7 @@
     border-radius: 14px;
     border: 1px solid #e0ded6;
     padding: 20px;
-    width: 460px;
+    width: 480px;
     max-width: 100%;
     max-height: 90vh;
     overflow-y: auto;
@@ -266,14 +266,11 @@
   }
   .modal-close:hover { background: #f5f4f0; color: #2C2C2A; }
 
-  /* Existing notes list */
-  .notes-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+  .notes-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
 
   .note-item {
-    background: #fafaf8;
-    border: 1px solid #e8e6de;
     border-radius: 8px;
-    padding: 10px 12px;
+    padding: 9px 12px;
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -281,7 +278,9 @@
 
   .note-item-text {
     font-size: 13px;
+    font-weight: 500;
     line-height: 1.5;
+    color: #1a1a18;
     word-break: break-word;
     white-space: pre-wrap;
   }
@@ -292,30 +291,23 @@
     gap: 8px;
   }
 
-  .note-color-pill {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
   .note-item-actions { margin-left: auto; display: flex; gap: 6px; }
 
   .btn-icon {
-    background: none;
-    border: 1px solid #e8e6de;
+    background: rgba(0,0,0,.08);
+    border: none;
     border-radius: 6px;
     padding: 3px 8px;
     font-size: 11px;
     cursor: pointer;
     font-family: inherit;
-    color: #5F5E5A;
+    color: #1a1a18;
     transition: background .12s;
   }
-  .btn-icon:hover { background: #f0eeea; }
-  .btn-icon.del { color: #A32D2D; }
-  .btn-icon.del:hover { background: #FCEBEB; border-color: #f0c0c0; }
+  .btn-icon:hover { background: rgba(0,0,0,.18); }
+  .btn-icon.del { color: #7a1f1f; }
+  .btn-icon.del:hover { background: rgba(163,45,45,.25); }
 
-  /* Add / edit note form */
   .note-form {
     border: 1px solid #d3d1c7;
     border-radius: 10px;
@@ -334,28 +326,35 @@
     letter-spacing: .04em;
   }
 
-  .color-bar {
+  /* Highlight color picker */
+  .highlight-bar {
     background: #f5f4f0;
     border-radius: 8px;
-    padding: 7px 10px;
+    padding: 8px 10px;
     display: flex;
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
   }
 
-  .color-bar-label { font-size: 11px; color: #888780; font-weight: 500; }
+  .highlight-bar-label { font-size: 11px; color: #888780; font-weight: 500; white-space: nowrap; }
 
-  .color-swatch {
-    width: 20px; height: 20px;
-    border-radius: 50%;
+  .highlight-swatch {
+    height: 24px;
+    padding: 0 10px;
+    border-radius: 5px;
     cursor: pointer;
     border: 2.5px solid transparent;
     transition: transform .12s, border-color .12s;
-    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1a1a18;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
   }
-  .color-swatch:hover { transform: scale(1.2); }
-  .color-swatch.active { border-color: #2C2C2A; transform: scale(1.15); }
+  .highlight-swatch:hover { transform: scale(1.08); }
+  .highlight-swatch.active { border-color: #2C2C2A; transform: scale(1.08); }
 
   .note-form textarea {
     width: 100%;
@@ -368,9 +367,10 @@
     background: #fafaf8;
     resize: vertical;
     line-height: 1.6;
-    transition: border-color .15s;
+    color: #1a1a18;
+    transition: border-color .15s, background .15s;
   }
-  .note-form textarea:focus { outline: none; border-color: #534AB7; background: #fff; }
+  .note-form textarea:focus { outline: none; border-color: #534AB7; }
 
   .form-actions {
     display: flex;
@@ -394,21 +394,6 @@
   .btn-secondary:hover { background: #f5f4f0; }
   .btn-primary { background: #534AB7; border: 1px solid #534AB7; color: #fff; }
   .btn-primary:hover { background: #3C3489; border-color: #3C3489; }
-  .btn-add {
-    background: #fff;
-    border: 1px dashed #b4b2a9;
-    border-radius: 8px;
-    padding: 8px;
-    font-size: 12px;
-    font-family: inherit;
-    cursor: pointer;
-    color: #534AB7;
-    width: 100%;
-    text-align: center;
-    transition: background .15s, border-color .15s;
-    margin-top: 4px;
-  }
-  .btn-add:hover { background: #EEEDFE; border-color: #534AB7; }
 </style>
 </head>
 <body>
@@ -437,18 +422,7 @@
   </div>
   <div class="weekdays-row" id="weekdaysRow"></div>
   <div class="cal-grids" id="calGrids"></div>
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot"></div> Has notes</div>
-    <div class="legend-item"><div class="legend-today-pill">9</div> Today</div>
-    <div class="legend-item">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888780" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-      Click any date to add or edit notes
-    </div>
-    <div class="legend-item">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888780" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
-      Notes sync live across all devices
-    </div>
-  </div>
+  <div class="legend" id="legend"></div>
 </div>
 
 <script type="module">
@@ -467,22 +441,23 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  const COLORS = [
-    { hex: '#2C2C2A', label: 'Default' },
-    { hex: '#534AB7', label: 'Purple' },
-    { hex: '#185FA5', label: 'Blue' },
-    { hex: '#0F6E56', label: 'Teal' },
-    { hex: '#3B6D11', label: 'Green' },
-    { hex: '#BA7517', label: 'Amber' },
-    { hex: '#D85A30', label: 'Coral' },
-    { hex: '#A32D2D', label: 'Red' },
-    { hex: '#993556', label: 'Pink' },
+  const HIGHLIGHTS = [
+    { hex: '#ffffff', label: 'None' },
+    { hex: '#FFF176', label: 'Yellow' },
+    { hex: '#A5D6A7', label: 'Green' },
+    { hex: '#90CAF9', label: 'Blue' },
+    { hex: '#F48FB1', label: 'Pink' },
+    { hex: '#FFCC80', label: 'Orange' },
+    { hex: '#CE93D8', label: 'Purple' },
+    { hex: '#80DEEA', label: 'Teal' },
+    { hex: '#EF9A9A', label: 'Red' },
+    { hex: '#E6EE9C', label: 'Lime' },
   ];
 
   const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const WEEKDAYS = ['Mon','Tue','Wed','Thu','Fri'];
+  const FULL_DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
-  // notes[key] = [ {id, text, color}, ... ]
   const notes = {};
   const today = new Date(); today.setHours(0,0,0,0);
   let viewStart = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -509,6 +484,10 @@
     return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
   }
 
+  function isWeekend(d) {
+    return d.getDay() === 0 || d.getDay() === 6;
+  }
+
   async function persistDay(key) {
     setSyncStatus('syncing');
     const entries = notes[key] || [];
@@ -524,7 +503,33 @@
     return Math.random().toString(36).slice(2, 10);
   }
 
-  // ── Calendar rendering ──
+  function buildLegend() {
+    const legend = document.getElementById('legend');
+    legend.innerHTML = '';
+
+    const items = [
+      `<div class="legend-item"><div class="legend-dot"></div> Has notes</div>`,
+      `<div class="legend-item"><div class="legend-today-pill">9</div> Today</div>`,
+      `<div class="legend-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888780" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Click any date to add notes</div>`,
+    ];
+    items.forEach(h => { const d = document.createElement('div'); d.innerHTML = h; legend.appendChild(d.firstChild); });
+
+    // Show highlight color samples
+    const sep = document.createElement('div');
+    sep.style.cssText = 'width:1px;height:14px;background:#e8e6de;margin:0 4px';
+    legend.appendChild(sep);
+
+    HIGHLIGHTS.filter(h => h.hex !== '#ffffff').forEach(h => {
+      const item = document.createElement('div');
+      item.className = 'legend-item';
+      const swatch = document.createElement('span');
+      swatch.className = 'legend-highlight';
+      swatch.style.background = h.hex;
+      swatch.textContent = h.label;
+      item.appendChild(swatch);
+      legend.appendChild(item);
+    });
+  }
 
   function buildCalendar() {
     const grids = document.getElementById('calGrids');
@@ -533,13 +538,15 @@
 
     const weekRow = document.getElementById('weekdaysRow');
     if (!weekRow.children.length) {
-      DAYS.forEach(d => {
+      WEEKDAYS.forEach(d => {
         const el = document.createElement('div');
         el.className = 'weekday-label';
         el.textContent = d;
         weekRow.appendChild(el);
       });
     }
+
+    buildLegend();
 
     const m2 = new Date(viewStart.getFullYear(), viewStart.getMonth() + 1, 1);
     rangeLabel.textContent = MONTHS[viewStart.getMonth()] + ' ' + viewStart.getFullYear() + ' – mid ' + MONTHS[m2.getMonth()] + ' ' + m2.getFullYear();
@@ -561,22 +568,29 @@
     grid.className = 'days-grid';
 
     const first = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
-    const last = halfOnly
-      ? new Date(monthDate.getFullYear(), monthDate.getMonth(), 15)
-      : new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0);
+    const lastDate = halfOnly ? 15 : new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
 
-    for (let i = 0; i < first.getDay(); i++) {
-      const d = new Date(first); d.setDate(d.getDate() - (first.getDay() - i));
-      grid.appendChild(makeCell(d, true));
+    const firstDayOfWeek = first.getDay();
+    const daysBackToMonday = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+
+    for (let i = daysBackToMonday; i > 0; i--) {
+      const d = new Date(first); d.setDate(d.getDate() - i);
+      if (!isWeekend(d)) grid.appendChild(makeCell(d, true));
     }
-    for (let i = 1; i <= last.getDate(); i++) {
-      grid.appendChild(makeCell(new Date(monthDate.getFullYear(), monthDate.getMonth(), i), false));
+
+    for (let i = 1; i <= lastDate; i++) {
+      const d = new Date(monthDate.getFullYear(), monthDate.getMonth(), i);
+      if (!isWeekend(d)) grid.appendChild(makeCell(d, false));
     }
+
     if (!halfOnly) {
-      const rem = 7 - ((first.getDay() + last.getDate()) % 7 || 7);
-      for (let i = 1; i <= (rem === 7 ? 0 : rem); i++) {
+      const last = new Date(monthDate.getFullYear(), monthDate.getMonth(), lastDate);
+      const lastDayOfWeek = last.getDay();
+      let daysToFriday = 0;
+      if (lastDayOfWeek >= 1 && lastDayOfWeek <= 4) daysToFriday = 5 - lastDayOfWeek;
+      for (let i = 1; i <= daysToFriday; i++) {
         const d = new Date(last); d.setDate(d.getDate() + i);
-        grid.appendChild(makeCell(d, true));
+        if (!isWeekend(d)) grid.appendChild(makeCell(d, true));
       }
     }
 
@@ -600,19 +614,11 @@
     if (entries.length > 0) {
       const notesEl = document.createElement('div');
       notesEl.className = 'cell-notes';
-      const visible = entries.slice(0, 6);
-      visible.forEach(e => {
+      entries.slice(0, 6).forEach(e => {
         const line = document.createElement('div');
         line.className = 'cell-note-line';
-        const dot = document.createElement('div');
-        dot.className = 'cell-note-dot';
-        dot.style.background = e.color || '#2C2C2A';
-        const txt = document.createElement('span');
-        txt.className = 'cell-note-text';
-        txt.style.color = e.color || '#2C2C2A';
-        txt.textContent = e.text;
-        line.appendChild(dot);
-        line.appendChild(txt);
+        line.style.background = e.highlight || '#ffffff';
+        line.textContent = e.text;
         notesEl.appendChild(line);
       });
       if (entries.length > 6) {
@@ -628,8 +634,6 @@
     return cell;
   }
 
-  // ── Modal ──
-
   function openModal(d) {
     closeModal();
     const k = keyFor(d);
@@ -644,51 +648,43 @@
     modalEl = backdrop;
 
     backdrop.onclick = (e) => { if (e.target === backdrop) closeModal(); };
-
     renderModal(m, d, k, null);
   }
 
   function renderModal(m, d, k, editingId) {
-    const dateStr = DAYS[d.getDay()] + ', ' + MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+    const fullDateStr = FULL_DAYS[d.getDay()] + ', ' + MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
     const entries = notes[k] || [];
-    let formColor = COLORS[0].hex;
+    let formHighlight = HIGHLIGHTS[0].hex;
     let formText = '';
 
     if (editingId) {
       const existing = entries.find(e => e.id === editingId);
-      if (existing) { formColor = existing.color; formText = existing.text; }
+      if (existing) { formHighlight = existing.highlight || '#ffffff'; formText = existing.text; }
     }
 
     m.innerHTML = '';
 
-    // Header
     const hdr = document.createElement('div');
     hdr.className = 'modal-header';
-    hdr.innerHTML = `<div class="modal-date-label">${dateStr}</div><button class="modal-close" id="mClose" aria-label="Close">&times;</button>`;
+    hdr.innerHTML = `<div class="modal-date-label">${fullDateStr}</div><button class="modal-close" id="mClose" aria-label="Close">&times;</button>`;
     m.appendChild(hdr);
     document.getElementById('mClose').onclick = closeModal;
 
-    // Existing notes list
     if (entries.length > 0) {
       const list = document.createElement('div');
       list.className = 'notes-list';
       entries.forEach(e => {
         const item = document.createElement('div');
         item.className = 'note-item';
-        item.style.borderLeft = '3px solid ' + (e.color || '#2C2C2A');
+        item.style.background = e.highlight || '#f5f4f0';
 
         const txt = document.createElement('div');
         txt.className = 'note-item-text';
-        txt.style.color = e.color || '#2C2C2A';
         txt.textContent = e.text;
         item.appendChild(txt);
 
         const footer = document.createElement('div');
         footer.className = 'note-item-footer';
-        const pill = document.createElement('div');
-        pill.className = 'note-color-pill';
-        pill.style.background = e.color || '#2C2C2A';
-        footer.appendChild(pill);
 
         const actions = document.createElement('div');
         actions.className = 'note-item-actions';
@@ -717,7 +713,6 @@
       m.appendChild(list);
     }
 
-    // Form
     const form = document.createElement('div');
     form.className = 'note-form';
 
@@ -726,38 +721,41 @@
     formTitle.textContent = editingId ? 'Edit note' : (entries.length > 0 ? 'Add another note' : 'Add note');
     form.appendChild(formTitle);
 
-    // Color bar
-    const colorBar = document.createElement('div');
-    colorBar.className = 'color-bar';
-    const colorLabel = document.createElement('span');
-    colorLabel.className = 'color-bar-label';
-    colorLabel.textContent = 'Color:';
-    colorBar.appendChild(colorLabel);
+    // Highlight picker
+    const highlightBar = document.createElement('div');
+    highlightBar.className = 'highlight-bar';
+    const hlLabel = document.createElement('span');
+    hlLabel.className = 'highlight-bar-label';
+    hlLabel.textContent = 'Highlight:';
+    highlightBar.appendChild(hlLabel);
 
-    COLORS.forEach(c => {
+    HIGHLIGHTS.forEach(h => {
       const sw = document.createElement('div');
-      sw.className = 'color-swatch' + (c.hex === formColor ? ' active' : '');
-      sw.style.background = c.hex;
-      sw.title = c.label;
+      sw.className = 'highlight-swatch' + (h.hex === formHighlight ? ' active' : '');
+      sw.style.background = h.hex;
+      sw.style.border = h.hex === '#ffffff' ? '2px solid #d3d1c7' : '2.5px solid transparent';
+      sw.textContent = h.label;
+      if (h.hex === formHighlight && h.hex !== '#ffffff') sw.style.borderColor = '#2C2C2A';
       sw.onclick = () => {
-        formColor = c.hex;
-        colorBar.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+        formHighlight = h.hex;
+        highlightBar.querySelectorAll('.highlight-swatch').forEach(s => {
+          s.classList.remove('active');
+          s.style.borderColor = s.style.background === '#ffffff' ? '#d3d1c7' : 'transparent';
+        });
         sw.classList.add('active');
-        textarea.style.color = formColor;
+        sw.style.borderColor = h.hex === '#ffffff' ? '#888780' : '#2C2C2A';
+        textarea.style.background = formHighlight;
       };
-      colorBar.appendChild(sw);
+      highlightBar.appendChild(sw);
     });
-    form.appendChild(colorBar);
+    form.appendChild(highlightBar);
 
-    // Textarea
     const textarea = document.createElement('textarea');
     textarea.placeholder = 'Type your note here…';
-    textarea.style.color = formColor;
+    textarea.style.background = formHighlight;
     textarea.value = formText;
-    textarea.oninput = () => { textarea.style.color = formColor; };
     form.appendChild(textarea);
 
-    // Actions
     const actions = document.createElement('div');
     actions.className = 'form-actions';
 
@@ -782,10 +780,10 @@
       saveMsg.textContent = 'Saving…';
       if (editingId) {
         const idx = (notes[k] || []).findIndex(e => e.id === editingId);
-        if (idx > -1) notes[k][idx] = { id: editingId, text: val, color: formColor };
+        if (idx > -1) notes[k][idx] = { id: editingId, text: val, highlight: formHighlight };
       } else {
         if (!notes[k]) notes[k] = [];
-        notes[k].push({ id: uid(), text: val, color: formColor });
+        notes[k].push({ id: uid(), text: val, highlight: formHighlight });
       }
       await persistDay(k);
       buildCalendar();
