@@ -75,7 +75,7 @@
     gap: 8px;
   }
 
-  .cal-nav-row h2 { font-size: 15px; font-weight: 600; color: #2C2C2A; }
+  .cal-nav-row h2 { font-size: 17px; font-weight: 600; color: #2C2C2A; }
 
   .nav-btns { display: flex; gap: 8px; }
 
@@ -83,8 +83,8 @@
     background: #fff;
     border: 1px solid #d3d1c7;
     border-radius: 8px;
-    padding: 5px 13px;
-    font-size: 13px;
+    padding: 6px 16px;
+    font-size: 14px;
     cursor: pointer;
     color: #2C2C2A;
     font-family: inherit;
@@ -104,49 +104,27 @@
 
   .weekday-label {
     text-align: center;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 600;
     color: #888780;
-    padding: 5px 0;
+    padding: 6px 0;
     text-transform: uppercase;
     letter-spacing: .05em;
-  }
-
-  .cal-grids {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    overflow: hidden;
-  }
-
-  .month-block { display: flex; flex-direction: column; min-height: 0; }
-  .month-block.full { flex: 2; }
-  .month-block.half { flex: 1; }
-
-  .month-heading {
-    flex-shrink: 0;
-    font-size: 11px;
-    font-weight: 600;
-    color: #888780;
-    text-transform: uppercase;
-    letter-spacing: .06em;
-    padding: 6px 2px 4px;
   }
 
   .days-grid {
     flex: 1;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 4px;
+    gap: 5px;
     min-height: 0;
   }
 
   .day-cell {
     background: #fff;
     border: 1px solid #e8e6de;
-    border-radius: 8px;
-    padding: 7px 8px 6px;
+    border-radius: 10px;
+    padding: 10px 10px 8px;
     cursor: pointer;
     transition: border-color .15s, background .15s;
     display: flex;
@@ -161,16 +139,16 @@
   .day-cell.has-notes { border-color: #534AB7; }
 
   .day-num {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     color: #2C2C2A;
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    margin-bottom: 4px;
+    margin-bottom: 5px;
     flex-shrink: 0;
   }
   .day-cell.today .day-num { background: #534AB7; color: #fff; }
@@ -178,25 +156,25 @@
   .cell-notes {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 4px;
     flex: 1;
     overflow: hidden;
   }
 
   .cell-note-line {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     line-height: 1.4;
     color: #1a1a18;
+    border-radius: 5px;
+    padding: 3px 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    border-radius: 4px;
-    padding: 2px 6px;
   }
 
   .cell-more {
-    font-size: 11px;
+    font-size: 12px;
     color: #888780;
     margin-top: 2px;
     padding-left: 4px;
@@ -205,29 +183,29 @@
   .legend {
     flex-shrink: 0;
     display: flex;
-    gap: 18px;
+    gap: 14px;
     flex-wrap: wrap;
     margin-top: 8px;
     padding-top: 8px;
     border-top: 1px solid #e8e6de;
-    font-size: 11px;
+    font-size: 12px;
     color: #888780;
     align-items: center;
   }
   .legend-item { display: flex; align-items: center; gap: 6px; }
   .legend-dot { width: 8px; height: 8px; border-radius: 50%; background: #534AB7; }
   .legend-today-pill {
-    width: 16px; height: 16px; border-radius: 50%;
+    width: 18px; height: 18px; border-radius: 50%;
     background: #534AB7; color: #fff;
-    font-size: 9px; font-weight: 600;
+    font-size: 10px; font-weight: 600;
     display: flex; align-items: center; justify-content: center;
   }
   .legend-highlight {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 500;
     color: #1a1a18;
-    padding: 1px 6px;
-    border-radius: 3px;
+    padding: 2px 8px;
+    border-radius: 4px;
   }
 
   /* ── Modal ── */
@@ -286,12 +264,7 @@
     white-space: pre-wrap;
   }
 
-  .note-item-footer {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
+  .note-item-footer { display: flex; align-items: center; }
   .note-item-actions { margin-left: auto; display: flex; gap: 6px; }
 
   .btn-icon {
@@ -327,7 +300,6 @@
     letter-spacing: .04em;
   }
 
-  /* Highlight color picker */
   .highlight-bar {
     background: #f5f4f0;
     border-radius: 8px;
@@ -373,22 +345,13 @@
   }
   .note-form textarea:focus { outline: none; border-color: #534AB7; }
 
-  .form-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: flex-end;
-  }
-
+  .form-actions { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
   .save-msg { font-size: 11px; color: #888780; flex: 1; }
 
   .btn {
-    border-radius: 8px;
-    padding: 6px 14px;
-    font-size: 13px;
-    font-family: inherit;
-    cursor: pointer;
-    font-weight: 500;
+    border-radius: 8px; padding: 6px 14px;
+    font-size: 13px; font-family: inherit;
+    cursor: pointer; font-weight: 500;
     transition: background .15s;
   }
   .btn-secondary { background: #fff; border: 1px solid #d3d1c7; color: #5F5E5A; }
@@ -422,7 +385,7 @@
     </div>
   </div>
   <div class="weekdays-row" id="weekdaysRow"></div>
-  <div class="cal-grids" id="calGrids"></div>
+  <div class="days-grid" id="daysGrid"></div>
   <div class="legend" id="legend"></div>
 </div>
 
@@ -461,7 +424,7 @@
 
   const notes = {};
   const today = new Date(); today.setHours(0,0,0,0);
-  let viewStart = new Date(today.getFullYear(), today.getMonth(), 1);
+  let viewMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   let modalEl = null;
 
   const syncDot = document.getElementById('syncDot');
@@ -485,9 +448,7 @@
     return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
   }
 
-  function isWeekend(d) {
-    return d.getDay() === 0 || d.getDay() === 6;
-  }
+  function isWeekend(d) { return d.getDay() === 0 || d.getDay() === 6; }
 
   async function persistDay(key) {
     setSyncStatus('syncing');
@@ -500,22 +461,18 @@
     }
   }
 
-  function uid() {
-    return Math.random().toString(36).slice(2, 10);
-  }
+  function uid() { return Math.random().toString(36).slice(2, 10); }
 
   function buildLegend() {
     const legend = document.getElementById('legend');
     legend.innerHTML = '';
 
-    const items = [
+    [
       `<div class="legend-item"><div class="legend-dot"></div> Has notes</div>`,
       `<div class="legend-item"><div class="legend-today-pill">9</div> Today</div>`,
       `<div class="legend-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888780" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Click any date to add notes</div>`,
-    ];
-    items.forEach(h => { const d = document.createElement('div'); d.innerHTML = h; legend.appendChild(d.firstChild); });
+    ].forEach(h => { const d = document.createElement('div'); d.innerHTML = h; legend.appendChild(d.firstChild); });
 
-    // Show highlight color samples
     const sep = document.createElement('div');
     sep.style.cssText = 'width:1px;height:14px;background:#e8e6de;margin:0 4px';
     legend.appendChild(sep);
@@ -533,10 +490,12 @@
   }
 
   function buildCalendar() {
-    const grids = document.getElementById('calGrids');
-    const rangeLabel = document.getElementById('calRangeLabel');
-    grids.innerHTML = '';
+    const grid = document.getElementById('daysGrid');
+    grid.innerHTML = '';
 
+    document.getElementById('calRangeLabel').textContent = MONTHS[viewMonth.getMonth()] + ' ' + viewMonth.getFullYear();
+
+    // Weekday headers
     const weekRow = document.getElementById('weekdaysRow');
     if (!weekRow.children.length) {
       WEEKDAYS.forEach(d => {
@@ -549,54 +508,32 @@
 
     buildLegend();
 
-    const m2 = new Date(viewStart.getFullYear(), viewStart.getMonth() + 1, 1);
-    rangeLabel.textContent = MONTHS[viewStart.getMonth()] + ' ' + viewStart.getFullYear() + ' – mid ' + MONTHS[m2.getMonth()] + ' ' + m2.getFullYear();
+    const first = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), 1);
+    const lastDate = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 0).getDate();
 
-    grids.appendChild(makeMonthBlock(viewStart, false));
-    grids.appendChild(makeMonthBlock(m2, true));
-  }
-
-  function makeMonthBlock(monthDate, halfOnly) {
-    const block = document.createElement('div');
-    block.className = 'month-block ' + (halfOnly ? 'half' : 'full');
-
-    const heading = document.createElement('div');
-    heading.className = 'month-heading';
-    heading.textContent = MONTHS[monthDate.getMonth()] + ' ' + monthDate.getFullYear() + (halfOnly ? ' (first half)' : '');
-    block.appendChild(heading);
-
-    const grid = document.createElement('div');
-    grid.className = 'days-grid';
-
-    const first = new Date(monthDate.getFullYear(), monthDate.getMonth(), 1);
-    const lastDate = halfOnly ? 15 : new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0).getDate();
-
+    // Leading fillers back to Monday
     const firstDayOfWeek = first.getDay();
     const daysBackToMonday = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
-
     for (let i = daysBackToMonday; i > 0; i--) {
       const d = new Date(first); d.setDate(d.getDate() - i);
       if (!isWeekend(d)) grid.appendChild(makeCell(d, true));
     }
 
+    // Actual days
     for (let i = 1; i <= lastDate; i++) {
-      const d = new Date(monthDate.getFullYear(), monthDate.getMonth(), i);
+      const d = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), i);
       if (!isWeekend(d)) grid.appendChild(makeCell(d, false));
     }
 
-    if (!halfOnly) {
-      const last = new Date(monthDate.getFullYear(), monthDate.getMonth(), lastDate);
-      const lastDayOfWeek = last.getDay();
-      let daysToFriday = 0;
-      if (lastDayOfWeek >= 1 && lastDayOfWeek <= 4) daysToFriday = 5 - lastDayOfWeek;
-      for (let i = 1; i <= daysToFriday; i++) {
-        const d = new Date(last); d.setDate(d.getDate() + i);
-        if (!isWeekend(d)) grid.appendChild(makeCell(d, true));
-      }
+    // Trailing fillers to complete last row
+    const last = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), lastDate);
+    const lastDayOfWeek = last.getDay();
+    let daysToFriday = 0;
+    if (lastDayOfWeek >= 1 && lastDayOfWeek <= 4) daysToFriday = 5 - lastDayOfWeek;
+    for (let i = 1; i <= daysToFriday; i++) {
+      const d = new Date(last); d.setDate(d.getDate() + i);
+      if (!isWeekend(d)) grid.appendChild(makeCell(d, true));
     }
-
-    block.appendChild(grid);
-    return block;
   }
 
   function makeCell(d, otherMonth) {
@@ -615,17 +552,17 @@
     if (entries.length > 0) {
       const notesEl = document.createElement('div');
       notesEl.className = 'cell-notes';
-      entries.slice(0, 6).forEach(e => {
+      entries.slice(0, 8).forEach(e => {
         const line = document.createElement('div');
         line.className = 'cell-note-line';
         line.style.background = e.highlight || '#ffffff';
         line.textContent = e.text;
         notesEl.appendChild(line);
       });
-      if (entries.length > 6) {
+      if (entries.length > 8) {
         const more = document.createElement('div');
         more.className = 'cell-more';
-        more.textContent = '+' + (entries.length - 6) + ' more';
+        more.textContent = '+' + (entries.length - 8) + ' more';
         notesEl.appendChild(more);
       }
       cell.appendChild(notesEl);
@@ -639,7 +576,6 @@
     closeModal();
     const k = keyFor(d);
     if (!notes[k]) notes[k] = [];
-
     const backdrop = document.createElement('div');
     backdrop.className = 'modal-backdrop';
     const m = document.createElement('div');
@@ -647,7 +583,6 @@
     backdrop.appendChild(m);
     document.body.appendChild(backdrop);
     modalEl = backdrop;
-
     backdrop.onclick = (e) => { if (e.target === backdrop) closeModal(); };
     renderModal(m, d, k, null);
   }
@@ -678,23 +613,18 @@
         const item = document.createElement('div');
         item.className = 'note-item';
         item.style.background = e.highlight || '#f5f4f0';
-
         const txt = document.createElement('div');
         txt.className = 'note-item-text';
         txt.textContent = e.text;
         item.appendChild(txt);
-
         const footer = document.createElement('div');
         footer.className = 'note-item-footer';
-
         const actions = document.createElement('div');
         actions.className = 'note-item-actions';
-
         const editBtn = document.createElement('button');
         editBtn.className = 'btn-icon';
         editBtn.textContent = 'Edit';
         editBtn.onclick = () => renderModal(m, d, k, e.id);
-
         const delBtn = document.createElement('button');
         delBtn.className = 'btn-icon del';
         delBtn.textContent = 'Delete';
@@ -704,7 +634,6 @@
           renderModal(m, d, k, null);
           buildCalendar();
         };
-
         actions.appendChild(editBtn);
         actions.appendChild(delBtn);
         footer.appendChild(actions);
@@ -716,13 +645,11 @@
 
     const form = document.createElement('div');
     form.className = 'note-form';
-
     const formTitle = document.createElement('div');
     formTitle.className = 'note-form-title';
     formTitle.textContent = editingId ? 'Edit note' : (entries.length > 0 ? 'Add another note' : 'Add note');
     form.appendChild(formTitle);
 
-    // Highlight picker
     const highlightBar = document.createElement('div');
     highlightBar.className = 'highlight-bar';
     const hlLabel = document.createElement('span');
@@ -741,7 +668,7 @@
         formHighlight = h.hex;
         highlightBar.querySelectorAll('.highlight-swatch').forEach(s => {
           s.classList.remove('active');
-          s.style.borderColor = s.style.background === '#ffffff' ? '#d3d1c7' : 'transparent';
+          s.style.borderColor = s.style.background === 'rgb(255, 255, 255)' ? '#d3d1c7' : 'transparent';
         });
         sw.classList.add('active');
         sw.style.borderColor = h.hex === '#ffffff' ? '#888780' : '#2C2C2A';
@@ -759,7 +686,6 @@
 
     const actions = document.createElement('div');
     actions.className = 'form-actions';
-
     const saveMsg = document.createElement('span');
     saveMsg.className = 'save-msg';
     actions.appendChild(saveMsg);
@@ -793,7 +719,6 @@
     actions.appendChild(saveBtn);
     form.appendChild(actions);
     m.appendChild(form);
-
     setTimeout(() => textarea.focus(), 40);
   }
 
@@ -802,15 +727,15 @@
   }
 
   document.getElementById('prevBtn').onclick = () => {
-    viewStart = new Date(viewStart.getFullYear(), viewStart.getMonth() - 1, 1);
+    viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1);
     buildCalendar();
   };
   document.getElementById('nextBtn').onclick = () => {
-    viewStart = new Date(viewStart.getFullYear(), viewStart.getMonth() + 1, 1);
+    viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1);
     buildCalendar();
   };
   document.getElementById('todayBtn').onclick = () => {
-    viewStart = new Date(today.getFullYear(), today.getMonth(), 1);
+    viewMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     buildCalendar();
   };
 
