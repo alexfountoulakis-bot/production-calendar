@@ -375,27 +375,114 @@
   }
   .btn-print:hover { background: #f5f4f0; border-color: #b4b2a9; }
 
+  /* Single day print overlay */
+  #printDayOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    z-index: 2000;
+    padding: 40px 48px;
+    flex-direction: column;
+    overflow: auto;
+  }
+  #printDayOverlay.visible { display: flex; }
+  .print-day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #2C2C2A;
+    padding-bottom: 14px;
+  }
+  .print-day-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2C2C2A;
+  }
+  .print-day-subtitle {
+    font-size: 15px;
+    color: #888780;
+    margin-top: 4px;
+  }
+  .print-day-actions { display: flex; gap: 10px; }
+  .print-day-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+  .print-day-note {
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #1a1a18;
+    line-height: 1.6;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .print-day-empty {
+    font-size: 16px;
+    color: #888780;
+    font-style: italic;
+    margin-top: 20px;
+  }
+
   @media print {
     @page { size: landscape; margin: 1cm; }
     html, body { height: auto !important; overflow: visible !important; background: #fff !important; padding: 0 !important; }
-    .page-header { margin-bottom: 8px; }
-    .sync-status, .nav-btns, .btn-print, .legend { display: none !important; }
-    .cal-container { border: none !important; border-radius: 0 !important; padding: 0 !important; overflow: visible !important; flex: none !important; }
-    .cal-nav-row { margin-bottom: 6px; }
-    .cal-nav-row h2 { font-size: 18px; }
-    .weekday-label { font-size: 12px; border-bottom: 2px solid #2C2C2A; padding-bottom: 4px; }
-    .days-grid { display: grid !important; grid-template-columns: repeat(5, 1fr) !important; gap: 4px !important; height: auto !important; overflow: visible !important; }
-    .day-cell { height: auto !important; min-height: 110px !important; overflow: visible !important; border: 1px solid #ccc !important; border-radius: 6px !important; padding: 6px 8px !important; break-inside: avoid; }
-    .day-cell.today { background: #EEEDFE !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .day-cell.today .day-num { background: #534AB7 !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .cell-notes { overflow: visible !important; height: auto !important; }
-    .cell-note-line { white-space: normal !important; overflow: visible !important; text-overflow: unset !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; margin-bottom: 2px; font-size: 11px !important; }
-    .cell-more { display: none !important; }
-    .modal-backdrop { display: none !important; }
+
+    /* Month print — hide day overlay and UI chrome */
+    body:not(.print-day-mode) .page-header { margin-bottom: 8px; }
+    body:not(.print-day-mode) .sync-status,
+    body:not(.print-day-mode) .nav-btns,
+    body:not(.print-day-mode) .btn-print,
+    body:not(.print-day-mode) .legend { display: none !important; }
+    body:not(.print-day-mode) .cal-container { border: none !important; border-radius: 0 !important; padding: 0 !important; overflow: visible !important; flex: none !important; }
+    body:not(.print-day-mode) .cal-nav-row { margin-bottom: 6px; }
+    body:not(.print-day-mode) .cal-nav-row h2 { font-size: 18px; }
+    body:not(.print-day-mode) .weekday-label { font-size: 12px; border-bottom: 2px solid #2C2C2A; padding-bottom: 4px; }
+    body:not(.print-day-mode) .days-grid { display: grid !important; grid-template-columns: repeat(5, 1fr) !important; gap: 4px !important; height: auto !important; overflow: visible !important; }
+    body:not(.print-day-mode) .day-cell { height: auto !important; min-height: 110px !important; overflow: visible !important; border: 1px solid #ccc !important; border-radius: 6px !important; padding: 6px 8px !important; break-inside: avoid; }
+    body:not(.print-day-mode) .day-cell.today { background: #EEEDFE !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body:not(.print-day-mode) .day-cell.today .day-num { background: #534AB7 !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body:not(.print-day-mode) .cell-notes { overflow: visible !important; height: auto !important; }
+    body:not(.print-day-mode) .cell-note-line { white-space: normal !important; overflow: visible !important; text-overflow: unset !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; margin-bottom: 2px; font-size: 11px !important; }
+    body:not(.print-day-mode) .cell-more { display: none !important; }
+    body:not(.print-day-mode) .modal-backdrop { display: none !important; }
+    body:not(.print-day-mode) #printDayOverlay { display: none !important; }
+
+    /* Day print — hide everything except the overlay */
+    body.print-day-mode .page-header,
+    body.print-day-mode .cal-container,
+    body.print-day-mode .modal-backdrop { display: none !important; }
+    body.print-day-mode #printDayOverlay {
+      display: flex !important;
+      position: static !important;
+      padding: 0 !important;
+    }
+    body.print-day-mode .print-day-actions { display: none !important; }
+    body.print-day-mode .print-day-note { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body.print-day-mode @page { size: portrait; }
   }
 </style>
 </head>
 <body>
+
+<div id="printDayOverlay">
+  <div class="print-day-header">
+    <div>
+      <div class="print-day-title" id="printDayTitle"></div>
+      <div class="print-day-subtitle">MOR Production Calendar</div>
+    </div>
+    <div class="print-day-actions">
+      <button class="btn-print" id="printDayConfirm">&#128438; Print this day</button>
+      <button class="btn-secondary btn" id="printDayClose">&#8592; Back to Calendar</button>
+    </div>
+  </div>
+  <div class="print-day-notes" id="printDayNotes"></div>
+</div>
 
 <div class="page-header">
   <div class="page-title">
@@ -418,7 +505,7 @@
       <button class="nav-btn today-btn" id="todayBtn">Today</button>
       <button class="nav-btn" id="nextBtn">Next &#8594;</button>
     </div>
-    <button class="btn-print" id="printBtn">&#128438; Print</button>
+    <button class="btn-print" id="printBtn">&#128438; Print Month</button>
   </div>
   <div class="weekdays-row" id="weekdaysRow"></div>
   <div class="days-grid" id="daysGrid"></div>
@@ -755,6 +842,15 @@
     actions.appendChild(saveBtn);
     form.appendChild(actions);
     m.appendChild(form);
+
+    // Print Day button at bottom of modal
+    const printDayBtn = document.createElement('button');
+    printDayBtn.className = 'btn-print';
+    printDayBtn.style.cssText = 'margin-top:12px;width:100%;justify-content:center;';
+    printDayBtn.innerHTML = '&#128438; Print this day';
+    printDayBtn.onclick = () => { openPrintDay(d, k); closeModal(); };
+    m.appendChild(printDayBtn);
+
     setTimeout(() => textarea.focus(), 40);
   }
 
