@@ -7,481 +7,231 @@
 <title>MOR Production Calendar</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html, body { height: 100%; overflow: hidden; }
-
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #f5f4f0;
-    color: #2C2C2A;
-    display: flex;
-    flex-direction: column;
-    padding: 12px 16px 12px;
+    background: #f5f4f0; color: #2C2C2A;
+    display: flex; flex-direction: column; padding: 12px 16px 12px;
   }
-
   .page-header {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 10px;
+    flex-shrink: 0; display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;
   }
-
-  .page-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #2C2C2A;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
+  .page-title { font-size: 20px; font-weight: 600; color: #2C2C2A; display: flex; align-items: center; gap: 10px; }
   .page-title svg { width: 22px; height: 22px; color: #534AB7; }
-
-  .sync-status {
-    font-size: 12px;
-    color: #888780;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
+  .sync-status { font-size: 12px; color: #888780; display: flex; align-items: center; gap: 6px; }
   .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: #3B6D11; display: inline-block; }
   .sync-dot.syncing { background: #BA7517; animation: pulse 1s infinite; }
   .sync-dot.error { background: #A32D2D; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-
   .cal-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-    background: #fff;
-    border-radius: 14px;
-    border: 1px solid #e0ded6;
-    padding: 14px 16px 10px;
-    overflow: hidden;
+    flex: 1; display: flex; flex-direction: column; min-height: 0;
+    background: #fff; border-radius: 14px; border: 1px solid #e0ded6;
+    padding: 14px 16px 10px; overflow: hidden;
   }
-
   .cal-nav-row {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-shrink: 0; display: flex; align-items: center;
+    justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 8px;
   }
-
   .cal-nav-row h2 { font-size: 17px; font-weight: 600; color: #2C2C2A; }
-
   .nav-btns { display: flex; gap: 8px; }
-
   .nav-btn {
-    background: #fff;
-    border: 1px solid #d3d1c7;
-    border-radius: 8px;
-    padding: 6px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    color: #2C2C2A;
-    font-family: inherit;
-    transition: background .15s, border-color .15s;
+    background: #fff; border: 1px solid #d3d1c7; border-radius: 8px;
+    padding: 6px 16px; font-size: 14px; cursor: pointer; color: #2C2C2A;
+    font-family: inherit; transition: background .15s, border-color .15s;
   }
   .nav-btn:hover { background: #f5f4f0; border-color: #b4b2a9; }
   .nav-btn.today-btn { color: #534AB7; border-color: #534AB7; }
   .nav-btn.today-btn:hover { background: #EEEDFE; }
-
+  .btn-print {
+    background: #fff; border: 1px solid #d3d1c7; border-radius: 8px;
+    padding: 6px 16px; font-size: 14px; cursor: pointer; color: #2C2C2A;
+    font-family: inherit; display: flex; align-items: center; gap: 6px;
+    transition: background .15s, border-color .15s;
+  }
+  .btn-print:hover { background: #f5f4f0; border-color: #b4b2a9; }
   .weekdays-row {
-    flex-shrink: 0;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 4px;
-    margin-bottom: 4px;
+    flex-shrink: 0; display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 4px; margin-bottom: 4px;
   }
-
   .weekday-label {
-    text-align: center;
-    font-size: 13px;
-    font-weight: 600;
-    color: #888780;
-    padding: 6px 0;
-    text-transform: uppercase;
-    letter-spacing: .05em;
+    text-align: center; font-size: 13px; font-weight: 600; color: #888780;
+    padding: 6px 0; text-transform: uppercase; letter-spacing: .05em;
   }
-
   .days-grid {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
-    min-height: 0;
+    flex: 1; display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 5px; min-height: 0;
   }
-
   .day-cell {
-    background: #fff;
-    border: 1px solid #e8e6de;
-    border-radius: 10px;
-    padding: 10px 10px 8px;
-    cursor: pointer;
+    background: #fff; border: 1px solid #e8e6de; border-radius: 10px;
+    padding: 10px 10px 8px; cursor: pointer;
     transition: border-color .15s, background .15s;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-    min-height: 0;
+    display: flex; flex-direction: column; position: relative;
+    overflow: hidden; min-height: 0;
   }
   .day-cell:hover { border-color: #b4b2a9; background: #fafaf8; }
   .day-cell.other-month { opacity: .28; pointer-events: none; }
   .day-cell.today { border-color: #534AB7; background: #EEEDFE; }
   .day-cell.has-notes { border-color: #534AB7; }
-
   .day-num {
-    font-size: 14px;
-    font-weight: 600;
-    color: #2C2C2A;
-    width: 26px;
-    height: 26px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    margin-bottom: 5px;
-    flex-shrink: 0;
+    font-size: 14px; font-weight: 600; color: #2C2C2A;
+    width: 26px; height: 26px; display: flex; align-items: center;
+    justify-content: center; border-radius: 50%; margin-bottom: 5px; flex-shrink: 0;
   }
   .day-cell.today .day-num { background: #534AB7; color: #fff; }
-
-  .cell-notes {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    flex: 1;
-    overflow: hidden;
-  }
-
+  .cell-notes { display: flex; flex-direction: column; gap: 4px; flex: 1; overflow: hidden; }
   .cell-note-line {
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.4;
-    color: #1a1a18;
-    border-radius: 5px;
-    padding: 3px 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 14px; font-weight: 500; line-height: 1.4; color: #1a1a18;
+    border-radius: 5px; padding: 3px 8px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-
-  .cell-more {
-    font-size: 12px;
-    color: #888780;
-    margin-top: 2px;
-    padding-left: 4px;
-  }
-
+  .cell-more { font-size: 12px; color: #888780; margin-top: 2px; padding-left: 4px; }
   .legend {
-    flex-shrink: 0;
-    display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    margin-top: 8px;
-    padding-top: 8px;
-    border-top: 1px solid #e8e6de;
-    font-size: 12px;
-    color: #888780;
-    align-items: center;
+    flex-shrink: 0; display: flex; gap: 14px; flex-wrap: wrap;
+    margin-top: 8px; padding-top: 8px; border-top: 1px solid #e8e6de;
+    font-size: 12px; color: #888780; align-items: center;
   }
   .legend-item { display: flex; align-items: center; gap: 6px; }
   .legend-dot { width: 8px; height: 8px; border-radius: 50%; background: #534AB7; }
   .legend-today-pill {
-    width: 18px; height: 18px; border-radius: 50%;
-    background: #534AB7; color: #fff;
-    font-size: 10px; font-weight: 600;
-    display: flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; border-radius: 50%; background: #534AB7; color: #fff;
+    font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center;
   }
-  .legend-highlight {
-    font-size: 12px;
-    font-weight: 500;
-    color: #1a1a18;
-    padding: 2px 8px;
-    border-radius: 4px;
-  }
+  .legend-highlight { font-size: 12px; font-weight: 500; color: #1a1a18; padding: 2px 8px; border-radius: 4px; }
 
-  /* ── Modal ── */
+  /* Modal */
   .modal-backdrop {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,.45);
+    position: fixed; inset: 0; background: rgba(0,0,0,.45);
     display: flex; align-items: center; justify-content: center;
     z-index: 1000; padding: 16px;
   }
-
   .modal {
-    background: #fff;
-    border-radius: 14px;
-    border: 1px solid #e0ded6;
-    padding: 20px;
-    width: 480px;
-    max-width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 8px 32px rgba(0,0,0,.12);
+    background: #fff; border-radius: 14px; border: 1px solid #e0ded6;
+    padding: 20px; width: 480px; max-width: 100%; max-height: 90vh;
+    overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,.12);
   }
-
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
   .modal-date-label { font-size: 15px; font-weight: 600; color: #2C2C2A; }
-
   .modal-close {
-    background: none; border: none;
-    cursor: pointer; font-size: 22px;
-    color: #888780; line-height: 1;
-    padding: 2px 4px; border-radius: 6px;
+    background: none; border: none; cursor: pointer; font-size: 22px;
+    color: #888780; line-height: 1; padding: 2px 4px; border-radius: 6px;
   }
   .modal-close:hover { background: #f5f4f0; color: #2C2C2A; }
-
   .notes-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
-
-  .note-item {
-    border-radius: 8px;
-    padding: 9px 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .note-item-text {
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1.5;
-    color: #1a1a18;
-    word-break: break-word;
-    white-space: pre-wrap;
-  }
-
+  .note-item { border-radius: 8px; padding: 9px 12px; display: flex; flex-direction: column; gap: 6px; }
+  .note-item-text { font-size: 13px; font-weight: 500; line-height: 1.5; color: #1a1a18; word-break: break-word; white-space: pre-wrap; }
   .note-item-footer { display: flex; align-items: center; }
   .note-item-actions { margin-left: auto; display: flex; gap: 6px; }
-
   .btn-icon {
-    background: rgba(0,0,0,.08);
-    border: none;
-    border-radius: 6px;
-    padding: 3px 8px;
-    font-size: 11px;
-    cursor: pointer;
-    font-family: inherit;
-    color: #1a1a18;
-    transition: background .12s;
+    background: rgba(0,0,0,.08); border: none; border-radius: 6px;
+    padding: 3px 8px; font-size: 11px; cursor: pointer; font-family: inherit;
+    color: #1a1a18; transition: background .12s;
   }
   .btn-icon:hover { background: rgba(0,0,0,.18); }
   .btn-icon.del { color: #7a1f1f; }
   .btn-icon.del:hover { background: rgba(163,45,45,.25); }
-
-  .note-form {
-    border: 1px solid #d3d1c7;
-    border-radius: 10px;
-    padding: 12px;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .note-form-title {
-    font-size: 12px;
-    font-weight: 600;
-    color: #888780;
-    text-transform: uppercase;
-    letter-spacing: .04em;
-  }
-
-  .highlight-bar {
-    background: #f5f4f0;
-    border-radius: 8px;
-    padding: 8px 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
+  .note-form { border: 1px solid #d3d1c7; border-radius: 10px; padding: 12px; background: #fff; display: flex; flex-direction: column; gap: 8px; }
+  .note-form-title { font-size: 12px; font-weight: 600; color: #888780; text-transform: uppercase; letter-spacing: .04em; }
+  .highlight-bar { background: #f5f4f0; border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .highlight-bar-label { font-size: 11px; color: #888780; font-weight: 500; white-space: nowrap; }
-
   .highlight-swatch {
-    height: 24px;
-    padding: 0 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    border: 2.5px solid transparent;
-    transition: transform .12s, border-color .12s;
-    font-size: 11px;
-    font-weight: 600;
-    color: #1a1a18;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
+    height: 24px; padding: 0 10px; border-radius: 5px; cursor: pointer;
+    border: 2.5px solid transparent; transition: transform .12s, border-color .12s;
+    font-size: 11px; font-weight: 600; color: #1a1a18;
+    display: flex; align-items: center; white-space: nowrap;
   }
   .highlight-swatch:hover { transform: scale(1.08); }
   .highlight-swatch.active { border-color: #2C2C2A; transform: scale(1.08); }
-
   .note-form textarea {
-    width: 100%;
-    min-height: 80px;
-    border: 1px solid #d3d1c7;
-    border-radius: 8px;
-    padding: 9px 11px;
-    font-size: 13px;
-    font-family: inherit;
-    background: #fafaf8;
-    resize: vertical;
-    line-height: 1.6;
-    color: #1a1a18;
-    transition: border-color .15s, background .15s;
+    width: 100%; min-height: 80px; border: 1px solid #d3d1c7; border-radius: 8px;
+    padding: 9px 11px; font-size: 13px; font-family: inherit; background: #fafaf8;
+    resize: vertical; line-height: 1.6; color: #1a1a18; transition: border-color .15s, background .15s;
   }
   .note-form textarea:focus { outline: none; border-color: #534AB7; }
-
   .form-actions { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
   .save-msg { font-size: 11px; color: #888780; flex: 1; }
-
-  .btn {
-    border-radius: 8px; padding: 6px 14px;
-    font-size: 13px; font-family: inherit;
-    cursor: pointer; font-weight: 500;
-    transition: background .15s;
-  }
+  .btn { border-radius: 8px; padding: 6px 14px; font-size: 13px; font-family: inherit; cursor: pointer; font-weight: 500; transition: background .15s; }
   .btn-secondary { background: #fff; border: 1px solid #d3d1c7; color: #5F5E5A; }
   .btn-secondary:hover { background: #f5f4f0; }
   .btn-primary { background: #534AB7; border: 1px solid #534AB7; color: #fff; }
   .btn-primary:hover { background: #3C3489; border-color: #3C3489; }
-
-  .btn-print {
-    background: #fff;
-    border: 1px solid #d3d1c7;
-    border-radius: 8px;
-    padding: 6px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    color: #2C2C2A;
-    font-family: inherit;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: background .15s, border-color .15s;
+  .btn-print-day {
+    width: 100%; margin-top: 12px; padding: 9px;
+    background: #fff; border: 1px dashed #b4b2a9; border-radius: 8px;
+    font-size: 13px; font-family: inherit; cursor: pointer; color: #2C2C2A;
+    font-weight: 500; transition: background .15s, border-color .15s;
   }
-  .btn-print:hover { background: #f5f4f0; border-color: #b4b2a9; }
+  .btn-print-day:hover { background: #f5f4f0; border-color: #534AB7; color: #534AB7; }
 
-  /* Single day print overlay */
-  #printDayOverlay {
+  /* Print Day Overlay */
+  #dayPrintOverlay {
     display: none;
-    position: fixed;
-    inset: 0;
-    background: #fff;
-    z-index: 2000;
-    padding: 40px 48px;
-    flex-direction: column;
-    overflow: auto;
+    position: fixed; inset: 0; background: #fff; z-index: 3000;
+    flex-direction: column; padding: 40px 48px; overflow-y: auto;
   }
-  #printDayOverlay.visible { display: flex; }
-  .print-day-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
-    border-bottom: 2px solid #2C2C2A;
-    padding-bottom: 14px;
+  #dayPrintOverlay.active { display: flex; }
+  .dpo-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    border-bottom: 2px solid #2C2C2A; padding-bottom: 16px; margin-bottom: 24px;
   }
-  .print-day-title {
-    font-size: 28px;
-    font-weight: 700;
-    color: #2C2C2A;
+  .dpo-title { font-size: 30px; font-weight: 700; color: #2C2C2A; }
+  .dpo-subtitle { font-size: 14px; color: #888780; margin-top: 4px; }
+  .dpo-actions { display: flex; gap: 10px; flex-shrink: 0; }
+  .dpo-notes { display: flex; flex-direction: column; gap: 12px; }
+  .dpo-note {
+    border-radius: 10px; padding: 16px 20px;
+    font-size: 20px; font-weight: 500; color: #1a1a18; line-height: 1.6;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
-  .print-day-subtitle {
-    font-size: 15px;
-    color: #888780;
-    margin-top: 4px;
-  }
-  .print-day-actions { display: flex; gap: 10px; }
-  .print-day-notes {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    flex: 1;
-  }
-  .print-day-note {
-    border-radius: 8px;
-    padding: 14px 18px;
-    font-size: 18px;
-    font-weight: 500;
-    color: #1a1a18;
-    line-height: 1.6;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  .print-day-empty {
-    font-size: 16px;
-    color: #888780;
-    font-style: italic;
-    margin-top: 20px;
-  }
+  .dpo-empty { font-size: 16px; color: #888780; font-style: italic; }
 
+  /* Print styles */
   @media print {
-    @page { size: landscape; margin: 1cm; }
-    html, body { height: auto !important; overflow: visible !important; background: #fff !important; padding: 0 !important; }
+    @page { margin: 1cm; }
 
-    /* Month print — hide day overlay and UI chrome */
-    body:not(.print-day-mode) .page-header { margin-bottom: 8px; }
-    body:not(.print-day-mode) .sync-status,
-    body:not(.print-day-mode) .nav-btns,
-    body:not(.print-day-mode) .btn-print,
-    body:not(.print-day-mode) .legend { display: none !important; }
-    body:not(.print-day-mode) .cal-container { border: none !important; border-radius: 0 !important; padding: 0 !important; overflow: visible !important; flex: none !important; }
-    body:not(.print-day-mode) .cal-nav-row { margin-bottom: 6px; }
-    body:not(.print-day-mode) .cal-nav-row h2 { font-size: 18px; }
-    body:not(.print-day-mode) .weekday-label { font-size: 12px; border-bottom: 2px solid #2C2C2A; padding-bottom: 4px; }
-    body:not(.print-day-mode) .days-grid { display: grid !important; grid-template-columns: repeat(5, 1fr) !important; gap: 4px !important; height: auto !important; overflow: visible !important; }
-    body:not(.print-day-mode) .day-cell { height: auto !important; min-height: 110px !important; overflow: visible !important; border: 1px solid #ccc !important; border-radius: 6px !important; padding: 6px 8px !important; break-inside: avoid; }
-    body:not(.print-day-mode) .day-cell.today { background: #EEEDFE !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    body:not(.print-day-mode) .day-cell.today .day-num { background: #534AB7 !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    body:not(.print-day-mode) .cell-notes { overflow: visible !important; height: auto !important; }
-    body:not(.print-day-mode) .cell-note-line { white-space: normal !important; overflow: visible !important; text-overflow: unset !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; margin-bottom: 2px; font-size: 11px !important; }
-    body:not(.print-day-mode) .cell-more { display: none !important; }
-    body:not(.print-day-mode) .modal-backdrop { display: none !important; }
-    body:not(.print-day-mode) #printDayOverlay { display: none !important; }
+    /* Month print */
+    body:not(.printing-day) { }
+    body:not(.printing-day) #dayPrintOverlay { display: none !important; }
+    body:not(.printing-day) .modal-backdrop { display: none !important; }
+    body:not(.printing-day) .sync-status,
+    body:not(.printing-day) .nav-btns,
+    body:not(.printing-day) .btn-print,
+    body:not(.printing-day) .legend { display: none !important; }
+    body:not(.printing-day) html,
+    body:not(.printing-day) body { height: auto !important; overflow: visible !important; }
+    body:not(.printing-day) .cal-container { border: none !important; padding: 0 !important; overflow: visible !important; flex: none !important; }
+    body:not(.printing-day) .days-grid { height: auto !important; overflow: visible !important; }
+    body:not(.printing-day) .day-cell { height: auto !important; min-height: 100px !important; overflow: visible !important; border: 1px solid #ccc !important; break-inside: avoid; }
+    body:not(.printing-day) .cell-notes { overflow: visible !important; }
+    body:not(.printing-day) .cell-note-line { white-space: normal !important; overflow: visible !important; text-overflow: unset !important; font-size: 11px !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body:not(.printing-day) .cell-more { display: none !important; }
+    body:not(.printing-day) .day-cell.today { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body:not(.printing-day) .day-cell.today .day-num { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
-    /* Day print — hide everything except the overlay */
-    body.print-day-mode .page-header,
-    body.print-day-mode .cal-container,
-    body.print-day-mode .modal-backdrop { display: none !important; }
-    body.print-day-mode #printDayOverlay {
-      display: flex !important;
-      position: static !important;
-      padding: 0 !important;
-    }
-    body.print-day-mode .print-day-actions { display: none !important; }
-    body.print-day-mode .print-day-note { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    body.print-day-mode @page { size: portrait; }
+    /* Day print */
+    body.printing-day .page-header,
+    body.printing-day .cal-container { display: none !important; }
+    body.printing-day #dayPrintOverlay { display: flex !important; position: static !important; padding: 0 !important; }
+    body.printing-day .dpo-actions { display: none !important; }
+    body.printing-day .dpo-note { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
 </head>
 <body>
 
-<div id="printDayOverlay">
-  <div class="print-day-header">
+<!-- Day print overlay -->
+<div id="dayPrintOverlay">
+  <div class="dpo-header">
     <div>
-      <div class="print-day-title" id="printDayTitle"></div>
-      <div class="print-day-subtitle">MOR Production Calendar</div>
+      <div class="dpo-title" id="dpoTitle"></div>
+      <div class="dpo-subtitle">MOR Production Calendar</div>
     </div>
-    <div class="print-day-actions">
-      <button class="btn-print" id="printDayConfirm">&#128438; Print this day</button>
-      <button class="btn-secondary btn" id="printDayClose">&#8592; Back to Calendar</button>
+    <div class="dpo-actions">
+      <button class="btn-print" id="dpoPrintBtn">&#128438; Print this day</button>
+      <button class="btn btn-secondary" id="dpoCloseBtn">&#8592; Back to Calendar</button>
     </div>
   </div>
-  <div class="print-day-notes" id="printDayNotes"></div>
+  <div class="dpo-notes" id="dpoNotes"></div>
 </div>
 
 <div class="page-header">
@@ -505,7 +255,7 @@
       <button class="nav-btn today-btn" id="todayBtn">Today</button>
       <button class="nav-btn" id="nextBtn">Next &#8594;</button>
     </div>
-    <button class="btn-print" id="printBtn">&#128438; Print Month</button>
+    <button class="btn-print" id="printMonthBtn">&#128438; Print Month</button>
   </div>
   <div class="weekdays-row" id="weekdaysRow"></div>
   <div class="days-grid" id="daysGrid"></div>
@@ -550,14 +300,15 @@
   let viewMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   let modalEl = null;
 
+  // ── Sync status ──
   const syncDot = document.getElementById('syncDot');
   const syncLabel = document.getElementById('syncLabel');
-
   function setSyncStatus(state) {
     syncDot.className = 'sync-dot' + (state === 'syncing' ? ' syncing' : state === 'error' ? ' error' : '');
     syncLabel.textContent = state === 'syncing' ? 'Syncing…' : state === 'error' ? 'Connection error' : 'Live — all changes saved';
   }
 
+  // ── Firebase listener ──
   onSnapshot(collection(db, 'notes'), (snapshot) => {
     snapshot.docChanges().forEach(change => {
       if (change.type === 'removed') delete notes[change.doc.id];
@@ -567,92 +318,64 @@
     buildCalendar();
   }, () => setSyncStatus('error'));
 
-  function keyFor(d) {
-    return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-  }
-
+  function keyFor(d) { return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
   function isWeekend(d) { return d.getDay() === 0 || d.getDay() === 6; }
+  function uid() { return Math.random().toString(36).slice(2, 10); }
 
   async function persistDay(key) {
     setSyncStatus('syncing');
     const entries = notes[key] || [];
-    if (entries.length === 0) {
-      await deleteDoc(doc(db, 'notes', key));
-      delete notes[key];
-    } else {
-      await setDoc(doc(db, 'notes', key), { entries });
-    }
+    if (entries.length === 0) { await deleteDoc(doc(db, 'notes', key)); delete notes[key]; }
+    else await setDoc(doc(db, 'notes', key), { entries });
   }
 
-  function uid() { return Math.random().toString(36).slice(2, 10); }
-
+  // ── Legend ──
   function buildLegend() {
     const legend = document.getElementById('legend');
     legend.innerHTML = '';
-
     [
       `<div class="legend-item"><div class="legend-dot"></div> Has notes</div>`,
       `<div class="legend-item"><div class="legend-today-pill">9</div> Today</div>`,
       `<div class="legend-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#888780" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Click any date to add notes</div>`,
     ].forEach(h => { const d = document.createElement('div'); d.innerHTML = h; legend.appendChild(d.firstChild); });
-
     const sep = document.createElement('div');
     sep.style.cssText = 'width:1px;height:14px;background:#e8e6de;margin:0 4px';
     legend.appendChild(sep);
-
     HIGHLIGHTS.filter(h => h.hex !== '#ffffff').forEach(h => {
-      const item = document.createElement('div');
-      item.className = 'legend-item';
-      const swatch = document.createElement('span');
-      swatch.className = 'legend-highlight';
-      swatch.style.background = h.hex;
-      swatch.textContent = h.label;
-      item.appendChild(swatch);
-      legend.appendChild(item);
+      const item = document.createElement('div'); item.className = 'legend-item';
+      const sw = document.createElement('span'); sw.className = 'legend-highlight';
+      sw.style.background = h.hex; sw.textContent = h.label;
+      item.appendChild(sw); legend.appendChild(item);
     });
   }
 
+  // ── Calendar ──
   function buildCalendar() {
     const grid = document.getElementById('daysGrid');
     grid.innerHTML = '';
-
     document.getElementById('calRangeLabel').textContent = MONTHS[viewMonth.getMonth()] + ' ' + viewMonth.getFullYear();
 
-    // Weekday headers
     const weekRow = document.getElementById('weekdaysRow');
     if (!weekRow.children.length) {
-      WEEKDAYS.forEach(d => {
-        const el = document.createElement('div');
-        el.className = 'weekday-label';
-        el.textContent = d;
-        weekRow.appendChild(el);
-      });
+      WEEKDAYS.forEach(d => { const el = document.createElement('div'); el.className = 'weekday-label'; el.textContent = d; weekRow.appendChild(el); });
     }
-
     buildLegend();
 
     const first = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), 1);
     const lastDate = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 0).getDate();
+    const daysBackToMonday = first.getDay() === 0 ? 6 : first.getDay() - 1;
 
-    // Leading fillers back to Monday
-    const firstDayOfWeek = first.getDay();
-    const daysBackToMonday = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
     for (let i = daysBackToMonday; i > 0; i--) {
       const d = new Date(first); d.setDate(d.getDate() - i);
       if (!isWeekend(d)) grid.appendChild(makeCell(d, true));
     }
-
-    // Actual days
     for (let i = 1; i <= lastDate; i++) {
       const d = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), i);
       if (!isWeekend(d)) grid.appendChild(makeCell(d, false));
     }
-
-    // Trailing fillers to complete last row
     const last = new Date(viewMonth.getFullYear(), viewMonth.getMonth(), lastDate);
-    const lastDayOfWeek = last.getDay();
-    let daysToFriday = 0;
-    if (lastDayOfWeek >= 1 && lastDayOfWeek <= 4) daysToFriday = 5 - lastDayOfWeek;
+    const lastDow = last.getDay();
+    const daysToFriday = (lastDow >= 1 && lastDow <= 4) ? 5 - lastDow : 0;
     for (let i = 1; i <= daysToFriday; i++) {
       const d = new Date(last); d.setDate(d.getDate() + i);
       if (!isWeekend(d)) grid.appendChild(makeCell(d, true));
@@ -667,45 +390,34 @@
     const entries = notes[k] || [];
     if (entries.length > 0) cell.classList.add('has-notes');
 
-    const numEl = document.createElement('div');
-    numEl.className = 'day-num';
-    numEl.textContent = d.getDate();
+    const numEl = document.createElement('div'); numEl.className = 'day-num'; numEl.textContent = d.getDate();
     cell.appendChild(numEl);
 
     if (entries.length > 0) {
-      const notesEl = document.createElement('div');
-      notesEl.className = 'cell-notes';
+      const notesEl = document.createElement('div'); notesEl.className = 'cell-notes';
       entries.slice(0, 8).forEach(e => {
-        const line = document.createElement('div');
-        line.className = 'cell-note-line';
-        line.style.background = e.highlight || '#ffffff';
-        line.textContent = e.text;
+        const line = document.createElement('div'); line.className = 'cell-note-line';
+        line.style.background = e.highlight || '#ffffff'; line.textContent = e.text;
         notesEl.appendChild(line);
       });
       if (entries.length > 8) {
-        const more = document.createElement('div');
-        more.className = 'cell-more';
-        more.textContent = '+' + (entries.length - 8) + ' more';
-        notesEl.appendChild(more);
+        const more = document.createElement('div'); more.className = 'cell-more';
+        more.textContent = '+' + (entries.length - 8) + ' more'; notesEl.appendChild(more);
       }
       cell.appendChild(notesEl);
     }
-
     cell.onclick = () => openModal(d);
     return cell;
   }
 
+  // ── Modal ──
   function openModal(d) {
     closeModal();
     const k = keyFor(d);
     if (!notes[k]) notes[k] = [];
-    const backdrop = document.createElement('div');
-    backdrop.className = 'modal-backdrop';
-    const m = document.createElement('div');
-    m.className = 'modal';
-    backdrop.appendChild(m);
-    document.body.appendChild(backdrop);
-    modalEl = backdrop;
+    const backdrop = document.createElement('div'); backdrop.className = 'modal-backdrop';
+    const m = document.createElement('div'); m.className = 'modal';
+    backdrop.appendChild(m); document.body.appendChild(backdrop); modalEl = backdrop;
     backdrop.onclick = (e) => { if (e.target === backdrop) closeModal(); };
     renderModal(m, d, k, null);
   }
@@ -713,93 +425,68 @@
   function renderModal(m, d, k, editingId) {
     const fullDateStr = FULL_DAYS[d.getDay()] + ', ' + MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
     const entries = notes[k] || [];
-    let formHighlight = HIGHLIGHTS[0].hex;
+    let formHighlight = '#ffffff';
     let formText = '';
-
     if (editingId) {
-      const existing = entries.find(e => e.id === editingId);
-      if (existing) { formHighlight = existing.highlight || '#ffffff'; formText = existing.text; }
+      const ex = entries.find(e => e.id === editingId);
+      if (ex) { formHighlight = ex.highlight || '#ffffff'; formText = ex.text; }
     }
-
     m.innerHTML = '';
 
-    const hdr = document.createElement('div');
-    hdr.className = 'modal-header';
-    hdr.innerHTML = `<div class="modal-date-label">${fullDateStr}</div><button class="modal-close" id="mClose" aria-label="Close">&times;</button>`;
+    // Header
+    const hdr = document.createElement('div'); hdr.className = 'modal-header';
+    hdr.innerHTML = `<div class="modal-date-label">${fullDateStr}</div><button class="modal-close" id="mClose">&times;</button>`;
     m.appendChild(hdr);
-    document.getElementById('mClose').onclick = closeModal;
+    m.querySelector('#mClose').onclick = closeModal;
 
+    // Existing notes
     if (entries.length > 0) {
-      const list = document.createElement('div');
-      list.className = 'notes-list';
+      const list = document.createElement('div'); list.className = 'notes-list';
       entries.forEach(e => {
-        const item = document.createElement('div');
-        item.className = 'note-item';
+        const item = document.createElement('div'); item.className = 'note-item';
         item.style.background = e.highlight || '#f5f4f0';
-        const txt = document.createElement('div');
-        txt.className = 'note-item-text';
-        txt.textContent = e.text;
+        const txt = document.createElement('div'); txt.className = 'note-item-text'; txt.textContent = e.text;
         item.appendChild(txt);
-        const footer = document.createElement('div');
-        footer.className = 'note-item-footer';
-        const actions = document.createElement('div');
-        actions.className = 'note-item-actions';
-        const editBtn = document.createElement('button');
-        editBtn.className = 'btn-icon';
-        editBtn.textContent = 'Edit';
+        const footer = document.createElement('div'); footer.className = 'note-item-footer';
+        const actions = document.createElement('div'); actions.className = 'note-item-actions';
+        const editBtn = document.createElement('button'); editBtn.className = 'btn-icon'; editBtn.textContent = 'Edit';
         editBtn.onclick = () => renderModal(m, d, k, e.id);
-        const delBtn = document.createElement('button');
-        delBtn.className = 'btn-icon del';
-        delBtn.textContent = 'Delete';
+        const delBtn = document.createElement('button'); delBtn.className = 'btn-icon del'; delBtn.textContent = 'Delete';
         delBtn.onclick = async () => {
           notes[k] = (notes[k] || []).filter(n => n.id !== e.id);
-          await persistDay(k);
-          renderModal(m, d, k, null);
-          buildCalendar();
+          await persistDay(k); renderModal(m, d, k, null); buildCalendar();
         };
-        actions.appendChild(editBtn);
-        actions.appendChild(delBtn);
-        footer.appendChild(actions);
-        item.appendChild(footer);
-        list.appendChild(item);
+        actions.appendChild(editBtn); actions.appendChild(delBtn);
+        footer.appendChild(actions); item.appendChild(footer); list.appendChild(item);
       });
       m.appendChild(list);
     }
 
-    const form = document.createElement('div');
-    form.className = 'note-form';
-    const formTitle = document.createElement('div');
-    formTitle.className = 'note-form-title';
+    // Form
+    const form = document.createElement('div'); form.className = 'note-form';
+    const formTitle = document.createElement('div'); formTitle.className = 'note-form-title';
     formTitle.textContent = editingId ? 'Edit note' : (entries.length > 0 ? 'Add another note' : 'Add note');
     form.appendChild(formTitle);
 
-    const highlightBar = document.createElement('div');
-    highlightBar.className = 'highlight-bar';
-    const hlLabel = document.createElement('span');
-    hlLabel.className = 'highlight-bar-label';
-    hlLabel.textContent = 'Highlight:';
-    highlightBar.appendChild(hlLabel);
-
+    const hbar = document.createElement('div'); hbar.className = 'highlight-bar';
+    const hlbl = document.createElement('span'); hlbl.className = 'highlight-bar-label'; hlbl.textContent = 'Highlight:';
+    hbar.appendChild(hlbl);
     HIGHLIGHTS.forEach(h => {
       const sw = document.createElement('div');
       sw.className = 'highlight-swatch' + (h.hex === formHighlight ? ' active' : '');
       sw.style.background = h.hex;
       sw.style.border = h.hex === '#ffffff' ? '2px solid #d3d1c7' : '2.5px solid transparent';
-      sw.textContent = h.label;
       if (h.hex === formHighlight && h.hex !== '#ffffff') sw.style.borderColor = '#2C2C2A';
+      sw.textContent = h.label;
       sw.onclick = () => {
         formHighlight = h.hex;
-        highlightBar.querySelectorAll('.highlight-swatch').forEach(s => {
-          s.classList.remove('active');
-          s.style.borderColor = s.style.background === 'rgb(255, 255, 255)' ? '#d3d1c7' : 'transparent';
-        });
-        sw.classList.add('active');
-        sw.style.borderColor = h.hex === '#ffffff' ? '#888780' : '#2C2C2A';
+        hbar.querySelectorAll('.highlight-swatch').forEach(s => { s.classList.remove('active'); s.style.borderColor = 'transparent'; });
+        sw.classList.add('active'); sw.style.borderColor = h.hex === '#ffffff' ? '#d3d1c7' : '#2C2C2A';
         textarea.style.background = formHighlight;
       };
-      highlightBar.appendChild(sw);
+      hbar.appendChild(sw);
     });
-    form.appendChild(highlightBar);
+    form.appendChild(hbar);
 
     const textarea = document.createElement('textarea');
     textarea.placeholder = 'Type your note here…';
@@ -807,22 +494,14 @@
     textarea.value = formText;
     form.appendChild(textarea);
 
-    const actions = document.createElement('div');
-    actions.className = 'form-actions';
-    const saveMsg = document.createElement('span');
-    saveMsg.className = 'save-msg';
-    actions.appendChild(saveMsg);
-
+    const factions = document.createElement('div'); factions.className = 'form-actions';
+    const saveMsg = document.createElement('span'); saveMsg.className = 'save-msg';
+    factions.appendChild(saveMsg);
     if (editingId) {
-      const cancelBtn = document.createElement('button');
-      cancelBtn.className = 'btn btn-secondary';
-      cancelBtn.textContent = 'Cancel';
-      cancelBtn.onclick = () => renderModal(m, d, k, null);
-      actions.appendChild(cancelBtn);
+      const cancelBtn = document.createElement('button'); cancelBtn.className = 'btn btn-secondary'; cancelBtn.textContent = 'Cancel';
+      cancelBtn.onclick = () => renderModal(m, d, k, null); factions.appendChild(cancelBtn);
     }
-
-    const saveBtn = document.createElement('button');
-    saveBtn.className = 'btn btn-primary';
+    const saveBtn = document.createElement('button'); saveBtn.className = 'btn btn-primary';
     saveBtn.textContent = editingId ? 'Update note' : 'Save note';
     saveBtn.onclick = async () => {
       const val = textarea.value.trim();
@@ -835,45 +514,67 @@
         if (!notes[k]) notes[k] = [];
         notes[k].push({ id: uid(), text: val, highlight: formHighlight });
       }
-      await persistDay(k);
-      buildCalendar();
-      renderModal(m, d, k, null);
+      await persistDay(k); buildCalendar(); renderModal(m, d, k, null);
     };
-    actions.appendChild(saveBtn);
-    form.appendChild(actions);
+    factions.appendChild(saveBtn);
+    form.appendChild(factions);
     m.appendChild(form);
 
-    // Print Day button at bottom of modal
-    const printDayBtn = document.createElement('button');
-    printDayBtn.className = 'btn-print';
-    printDayBtn.style.cssText = 'margin-top:12px;width:100%;justify-content:center;';
-    printDayBtn.innerHTML = '&#128438; Print this day';
-    printDayBtn.onclick = () => { openPrintDay(d, k); closeModal(); };
-    m.appendChild(printDayBtn);
+    // Print Day button
+    const pdBtn = document.createElement('button');
+    pdBtn.className = 'btn-print-day';
+    pdBtn.textContent = '🖨 Print this day';
+    pdBtn.onclick = () => { closeModal(); showDayPrint(d, k); };
+    m.appendChild(pdBtn);
 
     setTimeout(() => textarea.focus(), 40);
   }
 
-  function closeModal() {
-    if (modalEl) { modalEl.remove(); modalEl = null; }
+  function closeModal() { if (modalEl) { modalEl.remove(); modalEl = null; } }
+
+  // ── Print Day ──
+  function showDayPrint(d, k) {
+    const overlay = document.getElementById('dayPrintOverlay');
+    const title = document.getElementById('dpoTitle');
+    const notesContainer = document.getElementById('dpoNotes');
+
+    title.textContent = FULL_DAYS[d.getDay()] + ', ' + MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+    notesContainer.innerHTML = '';
+
+    const entries = notes[k] || [];
+    if (entries.length === 0) {
+      const empty = document.createElement('div'); empty.className = 'dpo-empty';
+      empty.textContent = 'No notes for this day.'; notesContainer.appendChild(empty);
+    } else {
+      entries.forEach(e => {
+        const note = document.createElement('div'); note.className = 'dpo-note';
+        note.style.background = e.highlight || '#f5f4f0'; note.textContent = e.text;
+        notesContainer.appendChild(note);
+      });
+    }
+    overlay.classList.add('active');
   }
 
-  document.getElementById('prevBtn').onclick = () => {
-    viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1);
-    buildCalendar();
+  // ── Print Day overlay buttons ──
+  document.getElementById('dpoCloseBtn').onclick = () => {
+    document.getElementById('dayPrintOverlay').classList.remove('active');
   };
-  document.getElementById('nextBtn').onclick = () => {
-    viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1);
-    buildCalendar();
+
+  document.getElementById('dpoPrintBtn').onclick = () => {
+    document.body.classList.add('printing-day');
+    window.print();
+    document.body.classList.remove('printing-day');
   };
-  document.getElementById('todayBtn').onclick = () => {
-    viewMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    buildCalendar();
-  };
+
+  // ── Print Month ──
+  document.getElementById('printMonthBtn').onclick = () => window.print();
+
+  // ── Nav ──
+  document.getElementById('prevBtn').onclick = () => { viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1); buildCalendar(); };
+  document.getElementById('nextBtn').onclick = () => { viewMonth = new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1); buildCalendar(); };
+  document.getElementById('todayBtn').onclick = () => { viewMonth = new Date(today.getFullYear(), today.getMonth(), 1); buildCalendar(); };
 
   buildCalendar();
-
-  document.getElementById('printBtn').onclick = () => window.print();
 </script>
 </body>
 </html>
